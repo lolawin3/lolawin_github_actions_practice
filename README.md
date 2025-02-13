@@ -1,2 +1,2 @@
 # github_actions_practice
-repo to practice CI/CD with github actions
+A repo to explore automation with github actions and enhance productivity and code quality
