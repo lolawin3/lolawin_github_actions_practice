@@ -1,0 +1,14 @@
+name: Donluki 1 Workflow
+on: push
+jobs:
+  first_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Welcome Message
+        run: echo "My First GitHub Actions Job"
+
+      - name: List Files
+        run: ls
+
+      - name: Read File
+        run: cat READ.md
