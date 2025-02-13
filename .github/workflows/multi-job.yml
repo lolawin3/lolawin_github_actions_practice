@@ -1,4 +1,5 @@
 name: Generate ASCII Artwork multi-job
+run-name: Generate ASCII Artwork multi-job
 on: push
 jobs:
   build_job_1:

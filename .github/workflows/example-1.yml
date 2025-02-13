@@ -1,4 +1,5 @@
 name: Donluki 1 Workflow
+run-name: Example 1 Workflow
 on: push
 jobs:
   first_job:

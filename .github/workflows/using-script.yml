@@ -1,4 +1,5 @@
-name: Executing Scritps Workflow
+name: Executing Scripts Workflow
+run-name: Executing Scripts Workflow
 on: push
 jobs:
   ascii_job:
