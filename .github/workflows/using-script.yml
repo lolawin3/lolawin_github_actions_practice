@@ -8,6 +8,9 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
+      - name: List Repo Files
+        uses: ls -ltra
+
       - name: List and Read File
         run: |
           chmod +x ascii-script.sh
