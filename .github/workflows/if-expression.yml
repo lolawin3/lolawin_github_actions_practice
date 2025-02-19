@@ -1,5 +1,5 @@
-name: Exploring Variables and Secrets
-run-name: Exploring Variables and Secrets run
+name: IF-Expression
+run-name: IF-Expression Workflow
 on:
   workflow_dispatch:
   #   schedule:
