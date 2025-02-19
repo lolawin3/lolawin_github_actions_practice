@@ -21,9 +21,6 @@ jobs:
       - name: Run Images
         run: docker run hello-world
 
-      - name: Docker Publish
-        run: echo docker push $CONTAINER_REGISTRY/$DOCKER_USERNAME/$IMAGE_NAME:latest
-
   deploy-on-windows:
     runs-on: windows-latest
     concurrency:
