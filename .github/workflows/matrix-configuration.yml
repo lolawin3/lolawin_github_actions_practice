@@ -1,0 +1,38 @@
+name: Matrix Configuration
+
+run-name: Matrix Configuration Workflow
+
+on:
+  workflow_dispatch:
+  push:
+
+env:
+  CONTAINER_RESGISTRY: docker.io
+  DOCKER_USERNAME: lolawin
+  IMAGE_NAME: github-actions-nginx
+  DOCKER_PASSWORD: s3cUrePaSsw0rd
+jobs:
+  deploy-on-ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo Docker Details
+        run: docker info
+
+      - name: Run Images
+        run: docker run hello-world
+
+      - name: Docker Publish
+        run: echo docker push $CONTAINER_REGISTRY/$DOCKER_USERNAME/$IMAGE_NAME:latest
+
+  deploy-on-windows:
+    runs-on: windows-latest
+    concurrency:
+      group: deploy-job
+      cancel-in-progress: false
+    timeout-minutes: 2
+    steps:
+      - name: Echo Docker Details
+        run: docker info
+
+      - name: Run Images
+        run: docker run hello-world
