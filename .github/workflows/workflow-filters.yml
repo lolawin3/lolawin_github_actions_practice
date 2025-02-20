@@ -10,9 +10,9 @@ on:
     branches:
       - main
       - "!features" # ignoring pushing to any branch name starting with feature using!
-    branches-ignore:
-      - feature/* # feature/add-music, feature/updateImages
-      - test/** # test/ui/index, test/checkout/payment/
+    # branches-ignore:
+    #   - feature/* # feature/add-music, feature/updateImages
+    #   - test/** # test/ui/index, test/checkout/payment/
 
   pull_request:
     types:
