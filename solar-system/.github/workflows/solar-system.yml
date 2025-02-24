@@ -160,6 +160,8 @@ jobs:
 
   dev-deploy:
     needs: docker
+    outputs:
+      APP_INGRESS_URL: ${{steps.set-ingress-host-address.outputs.APP_INGRESS_URL}}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -184,7 +186,7 @@ jobs:
 
       - name: Save Nginx Ingress Controller IP as a GITHUB Environment Variable
         run: |
-          echo "INGRESS_IP=${kubectl -n ingress-nginx get services ingress-nginx-controller -o jsonpath="{.status.loadbalancer.ingress[0].ip}"}" >> "$GITHUB_ENV"
+          echo "INGRESS_IP=$(kubectl -n ingress-nginx get services ingress-nginx-controller -o jsonpath="{.status.loadbalancer.ingress[0].ip}")" >> "$GITHUB_ENV"
 
       - name: Replace Tokens in Manifest files
         uses: cschleiden/replace-tokens@v1
@@ -215,3 +217,21 @@ jobs:
       - name: Deploy to Dev anv
         run: |
           kubectl apply -f kubernetes/development/
+
+      - name: Set App Ingress Host URL
+        id: set-ingress-host-address
+        run: |
+          echo "APP_INGRESS_HOST=$(kubectl -n ${{vars.NAMESPACE}} get ingress -o jsonpath="{.items[0].spec.tls[0].hosts[0]}")" >> "GITHUB_OUTPUT"
+
+  integration-testing:
+    name: Dev Integration Testing
+    needs: dev-deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test URL Output using CURL and JQ
+        env:
+          URL: ${{needs.dev-deploy.outputs.APP_INGRESS_URL}}
+        run: |
+          echo $URL
+          echo "------------------------------------------------"
+          curl https://$URL/live -s -k | jq -r .status | grep -i live
