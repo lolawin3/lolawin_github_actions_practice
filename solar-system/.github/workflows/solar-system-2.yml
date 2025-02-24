@@ -41,14 +41,10 @@ jobs:
         with:
           node-version: ${{ matrix.nodejs_version }}
 
-      - name: Cache NPM dependecies
-        uses: actions/cache@v3
+      - name: Composite Action - Cache & Install NPM Packages
+        uses: ./solar-system/.github/custom-actions/npm-folder/
         with:
-          path: ~/.npm
-          key: ${{runner.os}}-node-modules-${{ hashFiles('package-lock.json')}}
-
-      - name: Install Dependencies
-        run: npm install
+          path-of-folder: node_modules
 
       - name: Unit Testing
         id: nodejs-unit-testing
@@ -83,14 +79,10 @@ jobs:
       #   with:
       #     node-version: 18
 
-      - name: Cache NPM dependecies
-        uses: actions/cache@v3
+      - name: Composite Action - Cache & Install NPM Packages
+        uses: ./solar-system/.github/custom-actions/npm-folder/
         with:
-          path: ~/.npm
-          key: ${{runner.os}}-node-modules-${{ hashFiles('package-lock.json')}}
-
-      - name: Install Dependencies
-        run: npm install
+          path-of-folder: node_modules
 
       - name: Check Code Coverage
         continue-on-error: true
@@ -162,6 +154,9 @@ jobs:
     if: contains(github.ref, 'feature/')
     needs: docker
     uses: ./solar-system/.github/workflows/reuse-deployment.yml
+    secrets:
+      k8s-kubeconfig: ${{secrets.KUBECONFIG}}
+      mongodb-password: ${{secrets.MONGO_PASSWORD}}
 
   dev-integration-testing:
     name: Dev Integration Testing
